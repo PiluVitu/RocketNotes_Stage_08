@@ -1,0 +1,26 @@
+{
+  "name": "projeto_stage_08_rocketnotes",
+  "version": "1.0.0",
+  "description": "Projeto Stage08 Rocketseat",
+  "main": "index.js",
+  "scripts": {
+    "start": "node ./src/server.js",
+    "dev": "nodemon ./src/server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/PiluVitu/RocketNotes_Stage_08.git"
+  },
+  "author": "Paulo Victor Torres Silva",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/PiluVitu/RocketNotes_Stage_08/issues"
+  },
+  "homepage": "https://github.com/PiluVitu/RocketNotes_Stage_08#readme",
+  "dependencies": {
+    "express": "^4.18.2"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.20"
+  }
+}
