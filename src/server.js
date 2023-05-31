@@ -13,6 +13,11 @@ const corsOptions = {
 const express = require('express')
 const app = express()
 
+app.use((req,res,next)=> {
+  res.header("Access-Control-Allow-Origin","https://rocketnotes.piluvitu.dev")
+  next()
+})
+
 app.use(cors(corsOptions))
 
 const routes = require('./routes')
