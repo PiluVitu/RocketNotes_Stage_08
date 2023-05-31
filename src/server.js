@@ -5,20 +5,10 @@ const uploadConfig = require('./configs/upload')
 const AppError = require('./utils/AppError')
 const cors = require('cors')
 
-const corsOptions = {
-  origin:'https://rocketnotes.piluvitu.dev/',
-  optionsSuccessStatus: 200
-}
-
 const express = require('express')
 const app = express()
 
-app.use((req,res,next)=> {
-  res.header("Access-Control-Allow-Origin","https://rocketnotes.piluvitu.dev")
-  next()
-})
-
-app.use(cors(corsOptions))
+app.use(cors())
 
 const routes = require('./routes')
 const { UPLOADS_FOLDER } = require('./configs/upload')
