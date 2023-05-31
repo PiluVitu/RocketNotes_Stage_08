@@ -6,7 +6,7 @@ const AppError = require('./utils/AppError')
 const cors = require('cors')
 
 const corsOptions = {
-  origin: 'https://rocketnotes.piluvitu.dev/',
+  origin:'https://rocketnotes.piluvitu.dev/',
   optionsSuccessStatus: 200
 }
 
