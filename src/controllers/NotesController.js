@@ -64,7 +64,6 @@ class NotesController {
 
     if (tags) {
       const filterTags = tags.split(',').map(tag => tag.trim())
-
       notes = await knex('tags')
         .select([
           'notes.id', 
@@ -75,7 +74,7 @@ class NotesController {
         .whereLike('title', `%${title}%`)
         .whereIn('tags.name', filterTags)
         .innerJoin('notes', 'notes.id', 'tags.note_id')
-        .groupBy('notes_id')
+        .groupBy('notes.id')
         .orderBy('notes.title')
 
 
