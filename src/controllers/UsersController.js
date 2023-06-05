@@ -1,17 +1,14 @@
 const { hash, compare } = require('bcryptjs')
 const AppError = require('../utils/AppError')
+const UserRepository = require('../respositories/UsersRepository.js')
 const sqLiteConnection = require('../database/sqLite')
-const { response } = require('express')
-
 class UsersController {
   async create(req, res) {
     const { name, email, password } = req.body
 
-    const database = await sqLiteConnection()
-    const checkUserExists = await database.get(
-      'SELECT * FROM users WHERE email = (?)',
-      [email]
-    )
+    const userRepository = new UsersRepository()
+
+    const checkUserExists = await userRepository.findByEmail(email)
 
     if (checkUserExists) {
       throw new AppError('Esse email já existe', 400)
@@ -19,10 +16,11 @@ class UsersController {
 
     const hashedPassword = await hash(password, 8)
 
-    await database.run(
-      'INSERT INTO users (name, email, password) VALUES (?, ?, ?)',
-      [name, email, hashedPassword]
-    )
+    await database.run('INSERT INTO users (name, email, password) VALUES (?, ?, ?)', [
+      name,
+      email,
+      hashedPassword
+    ])
 
     return res.status(201).json()
   }
@@ -32,18 +30,15 @@ class UsersController {
     const user_id = req.user.id
 
     const database = await sqLiteConnection()
-    const user = await database.get('SELECT * FROM users  WHERE id = (?)', [
-      user_id
-    ])
+    const user = await database.get('SELECT * FROM users  WHERE id = (?)', [user_id])
 
     if (!user) {
       throw new AppError('Usuário não encontrado', 404)
     }
 
-    const userWithUpdatedEmail = await database.get(
-      'SELECT * FROM users WHERE email = (?)',
-      [email]
-    )
+    const userWithUpdatedEmail = await database.get('SELECT * FROM users WHERE email = (?)', [
+      email
+    ])
 
     if (userWithUpdatedEmail && userWithUpdatedEmail.id !== user.id) {
       throw new AppError('Esse email já está em uso', 400)
@@ -53,9 +48,7 @@ class UsersController {
     user.email = email ?? user.email
 
     if (password && !old_password) {
-      throw new AppError(
-        'Você precisa informar a senha antiga para redefinir a nova senha'
-      )
+      throw new AppError('Você precisa informar a senha antiga para redefinir a nova senha')
     }
 
     if (password && old_password) {
